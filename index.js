@@ -54,7 +54,7 @@ async function run() {
             const result = await taskCollection.updateOne(filter,updateDoc,options);
             res.send(result);
           });
-         //Get task api
+         //Get task
           app.get('/get-complete-task', async (req, res) => {
             const query = {}; 
             const cursor = completeTaskCollection.find(query);

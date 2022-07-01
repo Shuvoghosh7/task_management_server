@@ -24,7 +24,7 @@ async function run() {
             const task = await cursor.toArray();
             res.send(task);
         })
-        //get single task
+        //get single task update
         app.get('/get-task/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };

@@ -67,7 +67,13 @@ async function run() {
           const result = await completeTaskCollection.insertOne(TaskComplete )
           res.send(result)
       });
-          
+      // delete task after complete
+      app.delete('/detete-task/:id', async (req, res) => {
+        const id = req.params.id
+        const query = { _id: ObjectId(id) };
+        const result = await taskCollection.deleteOne(query)
+        res.send(result)
+      })   
        
     }
     finally {

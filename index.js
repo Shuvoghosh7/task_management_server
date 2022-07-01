@@ -16,6 +16,7 @@ async function run() {
     try {
         await client.connect();
         const taskCollection = client.db('manage_Task').collection('task');
+        const completeTaskCollection= client.db('manage_Task').collection('completeTask');
 
         app.get('/task', async (req, res) => {
             const query = {}; 
@@ -53,7 +54,19 @@ async function run() {
             const result = await taskCollection.updateOne(filter,updateDoc,options);
             res.send(result);
           });
-
+         //Get task
+          app.get('/get-complete-task', async (req, res) => {
+            const query = {}; 
+            const cursor = completeTaskCollection.find(query);
+            const Completetask = await cursor.toArray();
+            res.send(Completetask);
+        })
+          //Conplite task
+        app.post('/complete-task', async (req, res) => {
+          const TaskComplete = req.body
+          const result = await completeTaskCollection.insertOne(TaskComplete )
+          res.send(result)
+      });
           
        
     }

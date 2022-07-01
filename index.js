@@ -6,7 +6,7 @@ const app=express()
 
 //meddle ware
 app.use(cors());
-app.use(express.json()) //use to get data req.body
+app.use(express.json()) 
 
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -18,20 +18,21 @@ async function run() {
         const taskCollection = client.db('manage_Task').collection('task');
         const completeTaskCollection= client.db('manage_Task').collection('completeTask');
 
+        //Get all new task
         app.get('/task', async (req, res) => {
             const query = {}; 
             const cursor = taskCollection.find(query);
             const task = await cursor.toArray();
             res.send(task);
         })
-        //get single task update
+        //get single task 
         app.get('/get-task/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const parts = await taskCollection.findOne(query);
             res.send(parts)
           });
-        //add task
+        //add new task
         app.post('/add-task', async (req, res) => {
             const taskInfo = req.body
             const result = await taskCollection.insertOne(taskInfo)
@@ -54,14 +55,14 @@ async function run() {
             const result = await taskCollection.updateOne(filter,updateDoc,options);
             res.send(result);
           });
-         //Get task
+         //Get complete task
           app.get('/get-complete-task', async (req, res) => {
             const query = {}; 
             const cursor = completeTaskCollection.find(query);
             const Completetask = await cursor.toArray();
             res.send(Completetask);
         })
-          //Conplite task
+        //add  Conplite task
         app.post('/complete-task', async (req, res) => {
           const TaskComplete = req.body
           const result = await completeTaskCollection.insertOne(TaskComplete )
